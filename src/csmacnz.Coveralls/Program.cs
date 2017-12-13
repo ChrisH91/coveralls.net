@@ -131,7 +131,9 @@ namespace csmacnz.Coveralls
             var serviceJobId = ResolveServiceJobId(args);
             var pullRequestId = ResolvePullRequestId(args);
 
+            string endpoint = args.IsProvided("--endpoint") ? args.OptEndpoint : "https://coveralls.io";
             string serviceName = args.IsProvided("--serviceName") ? args.OptServicename : "coveralls.net";
+
             var data = new CoverallData
             {
                 RepoToken = repoToken,
@@ -149,7 +151,7 @@ namespace csmacnz.Coveralls
             }
             if (!args.OptDryrun)
             {
-                var uploadResult = new CoverallsService().Upload(fileData);
+                var uploadResult = new CoverallsService(endpoint).Upload(fileData);
                 if (!uploadResult.Successful)
                 {
                     var message = string.Format("Failed to upload to coveralls\n{0}", uploadResult.Error);

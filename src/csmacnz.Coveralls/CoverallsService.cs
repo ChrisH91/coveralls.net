@@ -7,7 +7,12 @@ namespace csmacnz.Coveralls
 {
     public class CoverallsService : ICoverallsService
     {
-        private static readonly string RequestUri = @"https://coveralls.io/api/v1/jobs";
+        private readonly string RequestUri;
+
+        public CoverallsService(string endpoint)
+        {
+            RequestUri = $"{endpoint}/api/v1/jobs";
+        }
 
         //TODO(csMACnz): change from bool to Unit or a simplified Result<TError> as a thing?
         public Result<bool, string> Upload(string fileData)
